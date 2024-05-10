@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Listeners;
 
 use App\Events\SendMessage;
@@ -22,17 +23,17 @@ class BroadcastMessage
      */
     public function handle(MessageReceived $event): void
     {
-
-        Log::info('BroadcastMessage');
+        Log::info(json_encode($event));
         $message = json_decode($event->message);
         $data = $message->data;
 
-        if(!$message->event || !$message->event !== 'SendMessage'){
-            return ;
+        if (isset($message->event) && $message->event == 'SendMessage') {
+            Log::info($message->event);
+            Log::info($message->data);
+            $data = json_decode($message->data);
+            broadcast(new SendMessage($data->message))->toOthers();
         }
 
-        $data = json_decode($data);
-
-        SendMessage::dispatch($data);
+        return;
     }
 }
