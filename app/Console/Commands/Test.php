@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Events\PackageSent;
+use App\Events\SendMessage;
 use Illuminate\Console\Command;
 
 class Test extends Command
@@ -12,7 +12,7 @@ class Test extends Command
      *
      * @var string
      */
-    protected $signature = 'app:test';
+    protected $signature = 'app:test {text}';
 
     /**
      * The console command description.
@@ -26,6 +26,6 @@ class Test extends Command
      */
     public function handle()
     {
-        PackageSent::dispatch('sent', 'handler');
+        SendMessage::dispatch($this->argument('text'));
     }
 }

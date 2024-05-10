@@ -7,31 +7,31 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PackageSent implements ShouldBroadCast
+class SendMessage implements ShouldBroadCast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public string $data; // this will depend based on your logic
 
     /**
      * Create a new event instance.
      */
-    public function __construct(
-        public string $status,
-        public string $deliveryHandler
-    )
+    public function __construct(string $data)
     {
-
+        $this->data = $data;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return Channel \Illuminate\\Broadcasting\\Channel>
+     * @return Channel
      */
     public function broadcastOn(): Channel
     {
-        return new Channel('delivery');
+        return new Channel('test-channel');
     }
 }
