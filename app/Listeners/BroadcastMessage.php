@@ -23,17 +23,11 @@ class BroadcastMessage
      */
     public function handle(MessageReceived $event): void
     {
-        Log::info(json_encode($event));
         $message = json_decode($event->message);
-        $data = $message->data;
 
         if (isset($message->event) && $message->event == 'SendMessage') {
-            Log::info($message->event);
-            Log::info($message->data);
             $data = json_decode($message->data);
             broadcast(new SendMessage($data->message))->toOthers();
         }
-
-        return;
     }
 }
